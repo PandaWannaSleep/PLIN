@@ -38,10 +38,10 @@ private:
     
     struct MetaType {
         char * buffer[PIECE_CNT];
-        size_t blk_per_piece;
+        size_t blk_per_piece;   
         size_t cur_blk;
         // entrance of DS in buffer
-        void * entrance;
+        void * entrance;    
     };
     MetaType * meta_;
 
@@ -50,9 +50,9 @@ private:
 
     char * buff_[PIECE_CNT];
     char * buff_aligned_[PIECE_CNT];
-    size_t piece_size_;
+    size_t piece_size_;     //block size per piece
     size_t cur_blk_;
-    size_t max_blk_;
+    size_t max_blk_;        //total capacity for block
     Spinlock alloc_mtx;
 
     bool file_exist (const char *pool_path) {

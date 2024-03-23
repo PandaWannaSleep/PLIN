@@ -121,7 +121,7 @@ public:
         Point p1{x, SY(y) + epsilon};
         Point p2{x, SY(y) - epsilon};
 
-        if (points_in_hull == 0) {
+        if (points_in_hull == 0) {  //initial the start point of a segment
             first_x = x;
             rectangle[0] = p1;
             rectangle[1] = p2;
@@ -287,7 +287,7 @@ public:
 
 
 
-
+//n refers to total number of data
 template<typename Fin, typename Fout>
 size_t make_segmentation(size_t n, size_t epsilon, Fin in, Fout out) {
     if (n == 0)

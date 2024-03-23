@@ -25,8 +25,8 @@
 // #define CLFLUSHOPT
 #define DOFLUSH
 
-using _key_t = double;
-using _payload_t = uint64_t;
+using _key_t = int64_t;
+using _payload_t = int64_t;
 
 // Size of data structures
 constexpr static uint64_t CACHELINE_SIZE = 64;

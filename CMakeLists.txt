@@ -27,7 +27,7 @@ add_definitions("-g")
 link_libraries(/usr/local/lib/pmdk_debug/libpmemobj.so.1)
 add_link_options(-pthread -fopenmp)
 
-add_executable(${PROJECT_NAME} test.cpp)
+# add_executable(${PROJECT_NAME} test.cpp)
 
 # target_link_libraries(${PROJECT_NAME} /usr/local/lib/pmdk_debug/libpmemobj.so.1 -pthread)
 

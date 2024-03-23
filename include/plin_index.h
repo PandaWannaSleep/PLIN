@@ -11,12 +11,13 @@
 class PlinIndex {
     typedef PlinIndex SelfType;
     // For storing models, to build nodes
-    struct Segment {
+    struct Segment {    
         _key_t first_key;
         double slope;
         double intercept;
         uint64_t number;
-        explicit Segment(const typename OptimalPiecewiseLinearModel<_key_t, size_t>::CanonicalSegment &cs)
+        //convert CanonicalSegment to Segment
+        explicit Segment(const typename         OptimalPiecewiseLinearModel<_key_t, size_t>::CanonicalSegment &cs)
                 : first_key(cs.get_first_x()),
                 number(cs.get_number()) {
             auto [cs_slope, cs_intercept] = cs.get_floating_point_segment(first_key);
