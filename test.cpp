@@ -29,7 +29,7 @@ void run_upsert_test(TestIndex& test_index, _key_t* keys, _payload_t* payloads, 
     std::mt19937 key_gen(time(NULL));
     std::mt19937 payload_gen(time(NULL));
 
-    size_t upsert_times = 1e7;
+    size_t upsert_times = number;  //1e7
     _key_t* new_keys = new _key_t[upsert_times];
     _payload_t* new_payloads = new _payload_t[upsert_times];
     for(size_t i = 0; i < upsert_times; i++){
@@ -53,7 +53,7 @@ void run_upsert_test(TestIndex& test_index, _key_t* keys, _payload_t* payloads, 
 }
 
 void test(uint64_t thread_cnt){
-    size_t number = 1e8;
+    size_t number = 100;
     std::normal_distribution<_key_t> key_dist(0, 1e10);
     std::uniform_int_distribution<_payload_t> payload_dist(0,1e9);
     std::mt19937 key_gen(time(NULL));
@@ -71,7 +71,7 @@ void test(uint64_t thread_cnt){
     std::sort(keys, keys+number);
 
     // NVM pool path
-    TestIndex test_index("/mnt/pmem/your_pool_path");
+    TestIndex test_index("/mnt/pmem/poolfile");
     test_index.bulk_load(keys, payloads, number);
 
     std::thread *search_test[thread_cnt];
@@ -95,5 +95,5 @@ void test(uint64_t thread_cnt){
 }
 
 int main() {
-    test(40);
+    test(4);
 }
