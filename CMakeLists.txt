@@ -31,6 +31,6 @@ add_link_options(-pthread -fopenmp)
 
 # target_link_libraries(${PROJECT_NAME} /usr/local/lib/pmdk_debug/libpmemobj.so.1 -pthread)
 
-include_directories(include)
-
+# include_directories(include)
+add_subdirectory(include)
 add_subdirectory(test)

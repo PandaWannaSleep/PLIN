@@ -6,11 +6,11 @@
 #include <omp.h>
 
 #include "common.h"
-#include "plin_index.h"
+#include "../include/plin_index.h"
 
-#define INDEXNAME "PlinIndex"
+
 using TestIndex = PlinIndex;
-PMAllocator * galc;
+// extern PMAllocator * galc;
 
 using std::cout;
 using std::endl;

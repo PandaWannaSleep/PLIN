@@ -8,6 +8,7 @@
 #include "inner_node.h"
 #include "piecewise_linear_model.h"
 
+
 class PlinIndex {
     typedef PlinIndex SelfType;
     // For storing models, to build nodes

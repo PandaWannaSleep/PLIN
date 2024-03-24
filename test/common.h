@@ -5,11 +5,12 @@
 #include <cstdint>
 #include <sys/stat.h>
 #include <typeinfo>
-#include "parameters.h"
+#include "../include/parameters.h"
 
 #define LOADSCALE 4
 #define KILO 1024
 #define MILLION (KILO * KILO)
+#define INDEXNAME "PlinIndex"
 
 
 const _key_t MAX_KEY = std::numeric_limits<_key_t>::max();
