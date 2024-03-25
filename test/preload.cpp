@@ -46,7 +46,7 @@ int main(int argc, char ** argv) {
     fin.read((char *)keys, sizeof(_key_t) * LOADSCALE * MILLION);
 
     cout << INDEXNAME << endl;
-    TestIndex test_index("/mnt/pmem/poolfile1");
+    TestIndex test_index("/mnt/pmem/poolfile");
     
     double start = seconds();
     preload(test_index, keys, keys, LOADSCALE * MILLION);

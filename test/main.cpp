@@ -21,7 +21,7 @@ using std::string;
 template<typename IndexType>
 double run_test(std::vector<QueryType> querys, int thread_cnt) {
     // recover the index from preload
-    IndexType test_index("/mnt/pmem/poolfile1", "plin", true);
+    IndexType test_index("/mnt/pmem/poolfile", "plin", true);
 
     // define a atomic var for current position of queries in MP environment
     std::atomic_int cur_pos(0);     //initial as 0
@@ -124,6 +124,7 @@ int main(int argc, char ** argv){
 
     double time = run_test<TestIndex>(querys, num_thread);
 
+    // cout<<"Thread "<<num_thread<<" execution time:"<<time<<endl;
     cout<<time<<endl;
 
     return 0;
