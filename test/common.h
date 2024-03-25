@@ -7,7 +7,7 @@
 #include <typeinfo>
 #include "../include/parameters.h"
 
-#define LOADSCALE 8
+#define LOADSCALE 1
 #define KILO 1024
 #define MILLION (KILO * KILO)
 #define INDEXNAME "PlinIndex"

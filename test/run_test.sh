@@ -1,8 +1,7 @@
 #!/bin/bash
 
-rm /mnt/pmem/poolfile
-
-./preload
+# rm /mnt/pmem/poolfile
+# ./preload
 
 wl_fname=$1
 
@@ -24,26 +23,33 @@ do
     # let time8+=$(./main -f $wl_fname -t 8)
     # let time12+=$(./main -f $wl_fname -t 12)
     # let time16+=$(./main -f $wl_fname -t 16)
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 1)
     echo $result
     time1=$(echo "$time1 + $result" | bc)
-
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 2)
     echo $result
     time2=$(echo "$time2 + $result" | bc)
-
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 4)
     echo $result
     time4=$(echo "$time4 + $result" | bc)
-
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 8)
     echo $result
     time8=$(echo "$time8 + $result" | bc)
-
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 12)
     echo $result
     time12=$(echo "$time12 + $result" | bc)
-
+    rm /mnt/pmem/poolfile
+    ./preload
     result=$(./main -f $wl_fname -t 16)
     echo $result
     time16=$(echo "$time16 + $result" | bc)
