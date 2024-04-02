@@ -77,9 +77,9 @@ public :
     }
 };
 
-void gen_dataset(int64_t *arr, uint64_t scale, bool random){
+void gen_dataset(int64_t *arr, uint64_t scale, DatasetType type){
     std::mt19937 gen(10007);
-    if(random) {
+    if(type == UNIFORM) {
         uint64_t step = MAX_KEY / scale;
         std::uniform_int_distribution<int64_t> dist(0, MAX_KEY);
         for(int64_t i = 0; i < scale; i++) {
@@ -90,11 +90,29 @@ void gen_dataset(int64_t *arr, uint64_t scale, bool random){
             #endif
         }
         std::shuffle(arr, arr + scale - 1, gen);
-    } else {
+    } else if(type == NORMAL){
         std::normal_distribution<double> dist(MAX_KEY / 2, MAX_KEY / 8);
         int64_t i = 0;
         while (i < scale) {
             double val = (uint64_t)dist(gen);
+            if(val < 0 || val > (double) MAX_KEY) {
+                continue;
+            } else {
+                arr[i++] = (int64_t)std::round(val);
+            }
+        }
+    }
+    else if(type == LOGNORMAL){
+        double mu = 0.0; // 均值
+        double sigma = 1.0; // 标准差
+        double max_value = MAX_KEY;
+        double min_value = 0.0;
+        double scaling_factor = (max_value - min_value) / (1.0 - std::exp(-mu + sigma * sigma / 2.0));
+        double shift = min_value - scaling_factor * std::exp(mu - sigma * sigma / 2.0);
+        std::lognormal_distribution<double> dist(mu, sigma);
+        int64_t i = 0;
+        while (i < scale) {
+            double val = scaling_factor * dist(gen) + shift;
             if(val < 0 || val > (double) MAX_KEY) {
                 continue;
             } else {
@@ -122,11 +140,12 @@ void gen_workload(int64_t *arr, uint64_t scale, QueryType * querys, WorkloadType
 }
 
 int main(int argc, char ** argv) {
-    static const bool DATASET_RANDOM = true;
+    // static const bool DATASET_RANDOM = false;
+    DatasetType dstype = UNIFORM;
     bool opt_zipfian = false;
     WorkloadType w;
 
-    static const char * optstr = "r:i:u:d:o:s:hz"; 
+    static const char * optstr = "g:r:i:u:d:o:s:hz"; 
     opterr = 0;
     char opt;
     while((opt = getopt(argc, argv, optstr)) != -1){
@@ -152,6 +171,9 @@ int main(int argc, char ** argv) {
         case 'z':
             opt_zipfian = true;
             break;
+        case 'g':
+            dstype = DatasetType(atoi(optarg));
+            break;
         case '?':
         case 'h':
         default:
@@ -164,6 +186,7 @@ int main(int argc, char ** argv) {
             cout << "\t -i: " << "Insert ratio" << endl;
             cout << "\t -u: " << "update ratio" << endl;
             cout << "\t -d: " << "Delete ratio" << endl;
+            cout << "\t -g: " << "The distribution of generated dataset: uniform(0), normal(1), lognormal(2)"<<endl;
             exit(-1);
         }
     }
@@ -177,8 +200,6 @@ int main(int argc, char ** argv) {
         w.dist = ZIPFIAN;
     }
 
-    w.print();
-
     #ifdef DEBUG
         uint64_t scale = LOADSCALE * KILO;
     #else
@@ -187,17 +208,36 @@ int main(int argc, char ** argv) {
 
     int64_t * arr = new int64_t[scale];
     if(!file_exist("dataset.dat")) {
-        gen_dataset(arr, scale, DATASET_RANDOM);
+        gen_dataset(arr, scale, dstype);
         ofstream fout("dataset.dat", std::ios::binary);
         fout.write((char *) arr, sizeof(int64_t) * scale);
         fout.close();
+        cout << "=========DATASET TYPE=========" << endl;
+        cout << "number      : " << scale << endl;
+        cout << "Distribution: " ;
+        switch (dstype)
+        {
+        case UNIFORM:
+            cout<<"uniform"<<endl;
+            break;
+        case NORMAL:
+            cout<<"normal"<<endl;
+            break;
+        case LOGNORMAL:
+            cout<<"lognormal"<<endl;
+            break;
+        default:
+            break;
+        }
+        cout << "===============================" << endl;
         cout << "generate a dataset file" << endl;
     } else {
         ifstream fin("dataset.dat", std::ios::binary);
         fin.read((char *)arr, sizeof(int64_t) * scale);
         fin.close();
     }
-
+    
+    w.print();
     QueryType * querys = new QueryType[w.operations];
     gen_workload(arr, scale, querys, w);
 

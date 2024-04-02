@@ -19,6 +19,7 @@ const _key_t MIN_KEY = typeid(_key_t) == typeid(double) || typeid(_key_t) == typ
 
 enum DistributionType {RAND = 0, ZIPFIAN};
 enum OperationType {READ = 0, INSERT, UPDATE, DELETE};
+enum DatasetType {UNIFORM = 0, NORMAL, LOGNORMAL};
 
 struct QueryType {
     OperationType op;
