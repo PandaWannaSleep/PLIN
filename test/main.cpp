@@ -55,7 +55,7 @@ double run_test(std::vector<QueryType> querys, int thread_cnt) {
                 break;
             }
             case OperationType::INSERT: {
-                test_index.upsert(key, key);
+                test_index.upsert(key + small_noise, key + small_noise);
                 break;
             }
             case OperationType::UPDATE: {

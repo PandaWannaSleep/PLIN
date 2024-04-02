@@ -30,7 +30,7 @@ using _payload_t = int64_t;
 
 // Size of data structures
 constexpr static uint64_t CACHELINE_SIZE = 64;
-constexpr static uint64_t POOLSIZE = 2;
+constexpr static uint64_t POOLSIZE = 1;
 constexpr static uint64_t BLOCK_SIZE = 256;
 
 // Header size

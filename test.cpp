@@ -53,7 +53,7 @@ void run_upsert_test(TestIndex& test_index, _key_t* keys, _payload_t* payloads, 
 }
 
 void test(uint64_t thread_cnt){
-    size_t number = 100;
+    size_t number = 1e8;
     std::normal_distribution<_key_t> key_dist(0, 1e10);
     std::uniform_int_distribution<_payload_t> payload_dist(0,1e9);
     std::mt19937 key_gen(time(NULL));
