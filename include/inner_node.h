@@ -169,7 +169,7 @@ public:
                 return;
             }
         }
-        for (slot += InnerSlotsPerBlock; slot < inner_node.block_number * InnerSlotsPerBlock; slot++) {
+        for (slot += InnerSlotsPerBlock; slot < inner_node.block_number * InnerSlotsPerBlock; slot++) {     //if previous block full, find next till the end of node.
             if (inner_slots[slot].min_key == FREE_FLAG) {                
                 inner_slots[slot] = node;
                 return;
