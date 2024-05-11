@@ -367,7 +367,7 @@ public:
         }
         
         if (!check_write_lock(accelerator)) {
-            leaf_slots[slot].header.release_lock_without_change();
+            leaf_slots[slot].header.release_lock_without_change();  //release the slot lock got from last upsert.
             return 7;
         } 
 
@@ -395,12 +395,13 @@ public:
                 return 2;
             }
             else if (leaf_slots[slot + i].data.key == DELETE_FLAG) {
-                deleted_slot = i;
+                deleted_slot = i;   //find a deleted slot in the block, being used for later replacing the deleted data with new key if key not in overflowtree.
             }
         }
 
         // Upsert into overflow block
         btree* overflow_tree = new btree(&leaf_slots[slot].header.overflow_tree, !leaf_slots[slot].header.overflow_tree);
+        // overflow_tree->upsert(): if key exists, then update, return 3; if key not exists, then check ds. If deleted_slot>0 (there is slot going to be deleted in learned node block), then return 2, go back to learned node and insert key into deleted slot; else insert the key into overflow_tree, return 4.
         uint32_t flag = overflow_tree->upsert(key, payload, deleted_slot);
         if (flag == 2) {
             leaf_slots[slot + deleted_slot].data.payload = payload;
@@ -448,7 +449,7 @@ public:
         }
         
         if (!check_write_lock(accelerator)) {
-            leaf_slots[slot].header.release_lock_without_change();
+            // leaf_slots[slot].header.release_lock_without_change();
             return 3;
         } 
 

@@ -520,7 +520,7 @@ public:
                     break;
                 }
             }
-        } while (log_number == LOG_NUMBER);
+        } while (log_number == LOG_NUMBER); // till get one log write lock
         plin_->logs[log_number].leaf_to_split = galc->relative(leaf_to_split);
         if (left_sibling)
             plin_->logs[log_number].left_sibling = galc->relative(left_sibling);
@@ -567,7 +567,7 @@ public:
         }
         else {
             leaf_to_split->get_read_lock();
-            plin_->logs[log_number].set_orphan();
+            plin_->logs[log_number].set_orphan();       //orphan node need to split
         }
         plin_->logs[log_number].left_node = galc->relative(leaf_nodes[0]);
         plin_->logs[log_number].right_node = galc->relative(leaf_nodes[last_n - 1]);
